@@ -46,7 +46,9 @@ supabase link --project-ref <your-project-ref>
 | `supabase stop` | Stop local Supabase stack |
 | `supabase status` | Show local Supabase URLs and keys |
 | `supabase db reset` | Apply migrations and seed locally |
+| `supabase db push` | Push migrations to linked remote project |
 | `supabase migration new <name>` | Create a new SQL migration |
+| `supabase gen types typescript --linked > src/lib/supabase/database.types.ts` | Regenerate DB types after schema changes |
 
 ## Engineering guardrails
 
