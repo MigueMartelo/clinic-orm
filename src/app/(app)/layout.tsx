@@ -1,5 +1,5 @@
-import { AppShell } from "@/components/app-shell";
-import { requireProfile } from "@/lib/auth";
+import { AppShell } from '@/components/app-shell';
+import { requireProfile } from '@/lib/auth';
 
 export default async function AppLayout({
   children,

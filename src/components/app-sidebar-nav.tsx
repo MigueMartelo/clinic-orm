@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import type { NavItem } from "@/lib/navigation";
+import type { NavItem } from '@/lib/navigation';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 type AppSidebarNavProps = {
   items: NavItem[];
