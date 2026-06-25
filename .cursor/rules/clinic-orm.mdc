@@ -47,3 +47,12 @@ Receivables: view over `attendances.balance_cop` + `service_instances.balance_co
 0. Environment (done) → 1. Data model → 2. Auth + layout → 3. Attendance + patients → 4. Dashboard → 5. Sessions + inventory + cartera → 6. Excel migration → 7. Deploy
 
 Do not build UI until Phase 1 schema is reviewed and applied.
+
+## Design (UI)
+
+- **Font:** Plus Jakarta Sans (`--font-jakarta`) — body and headings
+- **Primary:** blue `#3B82F6` → `--primary` (buttons, active nav, charts)
+- **Sidebar:** light gray `#F9FAFB` → `--sidebar`; active item uses `--sidebar-accent` (blue tint)
+- **Text:** `#171717` foreground, `#6B7280` muted
+- **Cards:** white, `rounded-xl`, subtle shadow — see `src/app/globals.css` tokens
+- Full reference: local `@plan/design-system.md`
