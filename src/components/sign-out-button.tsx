@@ -16,7 +16,11 @@ export function SignOutButton({
   label = 'Cerrar sesión',
 }: SignOutButtonProps) {
   return (
-    <form action='/auth/signout' method='post' className={cn('w-full', className)}>
+    <form
+      action='/auth/signout'
+      method='post'
+      className={cn('w-full', className)}
+    >
       <button
         type='submit'
         className='flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-foreground transition-colors hover:bg-accent hover:text-accent-foreground'

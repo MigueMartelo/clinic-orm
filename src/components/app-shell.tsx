@@ -91,7 +91,9 @@ export function AppShell({ profile, children }: AppShellProps) {
                 render={<Link href='/perfil' />}
               >
                 <Avatar size='sm'>
-                  <AvatarFallback>{getInitials(profile.full_name)}</AvatarFallback>
+                  <AvatarFallback>
+                    {getInitials(profile.full_name)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className='flex min-w-0 flex-1 flex-col gap-0.5'>
                   <span className='truncate text-sm font-medium'>
@@ -120,11 +122,11 @@ export function AppShell({ profile, children }: AppShellProps) {
               label='Salir'
             />
             <DropdownMenu>
-              <DropdownMenuTrigger
-                className='inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50'
-              >
+              <DropdownMenuTrigger className='inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50'>
                 <Avatar size='sm'>
-                  <AvatarFallback>{getInitials(profile.full_name)}</AvatarFallback>
+                  <AvatarFallback>
+                    {getInitials(profile.full_name)}
+                  </AvatarFallback>
                 </Avatar>
                 <span className='hidden max-w-32 truncate sm:inline'>
                   {profile.full_name}

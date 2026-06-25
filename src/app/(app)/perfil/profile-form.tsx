@@ -105,9 +105,7 @@ export function ProfileForm({ profile, email }: ProfileFormProps) {
           <div className='flex flex-col gap-2'>
             <Label>Rol</Label>
             <div>
-              <Badge variant='secondary'>
-                {roleLabels[profile.role]}
-              </Badge>
+              <Badge variant='secondary'>{roleLabels[profile.role]}</Badge>
             </div>
           </div>
 
