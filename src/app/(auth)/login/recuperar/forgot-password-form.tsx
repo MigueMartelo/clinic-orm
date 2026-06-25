@@ -6,7 +6,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { loginAction, type LoginState } from '@/app/(auth)/login/actions';
+import {
+  requestPasswordResetAction,
+  type RequestResetState,
+} from '@/app/(auth)/login/recuperar/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,18 +21,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const loginFormSchema = z.object({
+const forgotPasswordSchema = z.object({
   email: z.string().email('Ingresa un correo válido'),
-  password: z.string().min(1, 'La contraseña es obligatoria'),
 });
 
-type LoginFormValues = z.infer<typeof loginFormSchema>;
+type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
-const initialState: LoginState = {};
+const initialState: RequestResetState = {};
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   const [state, formAction, isPending] = useActionState(
-    loginAction,
+    requestPasswordResetAction,
     initialState,
   );
 
@@ -37,18 +39,14 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+  } = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: { email: '' },
   });
 
   const onSubmit = handleSubmit((values) => {
     const formData = new FormData();
     formData.set('email', values.email);
-    formData.set('password', values.password);
     startTransition(() => {
       formAction(formData);
     });
@@ -57,9 +55,9 @@ export function LoginForm() {
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader>
-        <CardTitle>Iniciar sesión</CardTitle>
+        <CardTitle>Recuperar contraseña</CardTitle>
         <CardDescription>
-          Accede al sistema de gestión del consultorio
+          Te enviaremos un enlace a tu correo para crear una nueva contraseña.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -78,37 +76,24 @@ export function LoginForm() {
             ) : null}
           </div>
 
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-center justify-between'>
-              <Label htmlFor='password'>Contraseña</Label>
-              <Link
-                href='/login/recuperar'
-                className='text-xs text-muted-foreground hover:text-foreground'
-              >
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
-            <Input
-              id='password'
-              type='password'
-              autoComplete='current-password'
-              aria-invalid={Boolean(errors.password)}
-              {...register('password')}
-            />
-            {errors.password ? (
-              <p className='text-sm text-destructive'>
-                {errors.password.message}
-              </p>
-            ) : null}
-          </div>
-
           {state.error ? (
             <p className='text-sm text-destructive'>{state.error}</p>
           ) : null}
 
+          {state.success ? (
+            <p className='text-sm text-muted-foreground'>{state.success}</p>
+          ) : null}
+
           <Button type='submit' disabled={isPending} className='w-full'>
-            {isPending ? 'Ingresando...' : 'Ingresar'}
+            {isPending ? 'Enviando...' : 'Enviar enlace'}
           </Button>
+
+          <Link
+            href='/login'
+            className='text-center text-sm text-muted-foreground hover:text-foreground'
+          >
+            Volver al inicio de sesión
+          </Link>
         </form>
       </CardContent>
     </Card>

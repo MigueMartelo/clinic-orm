@@ -6,12 +6,20 @@ import {
   getSupabaseUrl,
 } from "@/lib/supabase/env";
 
-const publicPaths = ["/login", "/auth/callback"];
+const publicPaths = ['/login', '/auth/callback'];
 
 function isPublicPath(pathname: string): boolean {
+  if (pathname === '/login' || pathname.startsWith('/login/')) {
+    return true;
+  }
+
   return publicPaths.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`),
   );
+}
+
+function isLoginPath(pathname: string): boolean {
+  return pathname === '/login' || pathname.startsWith('/login/');
 }
 
 export async function updateSession(request: NextRequest) {
@@ -55,9 +63,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && pathname === "/login") {
+  if (user && isLoginPath(pathname)) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
 
