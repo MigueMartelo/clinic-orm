@@ -1,0 +1,49 @@
+---
+description: Clinic ORM project context — stack, data model, and delivery phases
+alwaysApply: true
+---
+
+# Clinic ORM
+
+Aesthetic medicine clinic management system (Cartagena, COP).
+
+## Stack
+
+- Next.js App Router + TypeScript + Tailwind + shadcn/ui
+- Supabase: PostgreSQL, Auth, RLS, Storage
+- Deploy: Vercel + Supabase
+
+## Data guardrails
+
+- Money: `bigint` integer COP — never floats
+- Dates: `timestamptz`
+- Auth + RLS from migration 1
+- Versioned SQL migrations in `supabase/migrations/`
+- Pagination + indexes on report queries
+- Audit log for sensitive operations (Habeas Data)
+
+## Services model (unified)
+
+No laser-specific tables. All clinical offerings use:
+
+1. **`services`** — catalog with `session_mode`: `none` | `fixed_count` | `open`
+2. **`service_instances`** — patient enrolled in a multi-session package
+3. **`service_sessions`** — individual session (1–10) with optional link to attendance
+4. **`attendances`** — any service delivered (one-off or session visit)
+5. **`payments`** — linked to attendance or service_instance
+
+Retail (`products`, `inventory_movements`, `product_sales`) stays separate from services.
+
+Receivables: view over `attendances.balance_cop` + `service_instances.balance_cop`.
+
+## User roles
+
+- `doctora` — read + clinical notes
+- `recepcion` — CRUD patients, attendances, sessions, inventory sales
+- `admin` — full access + user management
+
+## Delivery phases
+
+0. Environment (done) → 1. Data model → 2. Auth + layout → 3. Attendance + patients → 4. Dashboard → 5. Sessions + inventory + cartera → 6. Excel migration → 7. Deploy
+
+Do not build UI until Phase 1 schema is reviewed and applied.

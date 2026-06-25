@@ -1,0 +1,43 @@
+---
+description: TypeScript, React, and Next.js best practices for application code
+globs: src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# TypeScript, React, Next.js standards
+
+## TypeScript
+
+- `strict` mode; never use `any` — prefer `unknown` and narrow with type guards
+- `interface` for object shapes; `type` for unions and utilities
+- Explicit return types on exported functions and Server Actions
+- Validate external input at boundaries with Zod (forms, params, Supabase rows)
+- Use generated Supabase types (`Database` from `supabase gen types`)
+- `satisfies` for config objects; discriminated unions for UI/state variants
+
+## React
+
+- Functional components only; follow Rules of Hooks
+- Prefer composition; avoid unnecessary prop drilling
+- Minimize `useEffect` — prefer derived state, Server Components, or event handlers
+- Stable `key` props on lists; never use array index when order can change
+- Forms: `react-hook-form` + Zod resolver + shadcn/ui form primitives
+- Accessible markup: semantic HTML, labels, focus management
+
+## Next.js (App Router)
+
+- **Server Components by default** — `"use client"` only for interactivity, browser APIs, or hooks
+- Fetch data in Server Components; pass serializable props to Client Components
+- Mutations via **Server Actions** with `revalidatePath` / `revalidateTag`
+- Supabase: `@supabase/ssr` — server client in RSC/Actions, browser client in Client Components only
+- Auth in `middleware.ts`; protect routes by role before page render
+- Colocate `loading.tsx`, `error.tsx`, and Suspense per route segment
+- Use `next/link` and `next/image`
+- `NEXT_PUBLIC_*` only for browser-safe env vars; service role key server-only
+- Route Handlers only when Server Actions are insufficient
+
+## Code quality
+
+- Match existing project patterns before new abstractions
+- Small, focused components; co-locate route UI under `src/app/`
+- Fix ESLint errors before finishing a task

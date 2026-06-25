@@ -1,0 +1,35 @@
+# Local planning and business docs (not for GitHub)
+plan/
+
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment
+.env*.local
+
+# Supabase local
+.supabase/
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# IDE
+.idea/
+*.swp
+*.swo
