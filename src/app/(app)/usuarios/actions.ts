@@ -81,7 +81,7 @@ export async function createUserAction(
   } catch {
     return {
       error:
-        "Falta SUPABASE_SERVICE_ROLE_KEY en el entorno del servidor",
+        "Falta SUPABASE_SECRET_KEY en el entorno del servidor",
     };
   }
 }
