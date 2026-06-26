@@ -3,6 +3,7 @@ import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { QueryProvider } from '@/components/providers/query-provider';
 
 import './globals.css';
 
@@ -34,10 +35,12 @@ export default function RootLayout({
         className={`${jakarta.variable} ${jetbrainsMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
-        <TooltipProvider>
-          {children}
-          <Toaster richColors closeButton />
-        </TooltipProvider>
+        <QueryProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster richColors closeButton />
+          </TooltipProvider>
+        </QueryProvider>
       </body>
     </html>
   );
