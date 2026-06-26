@@ -1,10 +1,8 @@
-import { PlaceholderPage } from '@/components/placeholder-page';
+import { PatientsView } from '@/app/(app)/patients/patients-view';
+import { requireProfile } from '@/lib/auth';
 
-export default function PacientesPage() {
-  return (
-    <PlaceholderPage
-      title='Pacientes'
-      description='Ficha unificada del paciente e historial clínico. Disponible en la Fase 3.'
-    />
-  );
+export default async function PatientsPage() {
+  const profile = await requireProfile();
+
+  return <PatientsView role={profile.role} />;
 }
