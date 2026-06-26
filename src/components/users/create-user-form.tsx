@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { createUserAction, type ActionState } from '@/app/(app)/users/actions';
-import { roleLabels, userRoles } from '@/lib/auth-types';
+import { roleLabels, assignableRoles } from '@/lib/auth-types';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -23,13 +23,13 @@ const createUserFormSchema = z.object({
   full_name: z.string().min(2, 'El nombre es obligatorio'),
   email: z.string().email('Ingresa un correo válido'),
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
-  role: z.enum(['admin', 'recepcion', 'doctora']),
+  role: z.enum(['admin', 'receptionist', 'doctor', 'user']),
 });
 
 type CreateUserFormValues = z.infer<typeof createUserFormSchema>;
 
 const initialState: ActionState = {};
-const roles = userRoles;
+const roles = assignableRoles;
 
 export function CreateUserForm() {
   const [state, formAction, isPending] = useActionState(
@@ -48,7 +48,7 @@ export function CreateUserForm() {
       full_name: '',
       email: '',
       password: '',
-      role: 'recepcion',
+      role: 'user',
     },
   });
 

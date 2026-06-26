@@ -709,8 +709,8 @@ export type Database = {
         Returns: Database["public"]["Enums"]["user_role"]
       }
       is_admin: { Args: never; Returns: boolean }
-      is_doctora: { Args: never; Returns: boolean }
-      is_recepcion: { Args: never; Returns: boolean }
+      is_doctor: { Args: never; Returns: boolean }
+      is_receptionist: { Args: never; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
       write_audit_log: {
         Args: {
@@ -728,7 +728,7 @@ export type Database = {
       inventory_movement_type: "entrada" | "salida"
       payment_method: "transferencia" | "datafono" | "efectivo" | "dolares"
       session_mode: "none" | "fixed_count" | "open"
-      user_role: "doctora" | "recepcion" | "admin"
+      user_role: "admin" | "doctor" | "receptionist" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -863,7 +863,7 @@ export const Constants = {
       inventory_movement_type: ["entrada", "salida"],
       payment_method: ["transferencia", "datafono", "efectivo", "dolares"],
       session_mode: ["none", "fixed_count", "open"],
-      user_role: ["doctora", "recepcion", "admin"],
+      user_role: ["admin", "doctor", "receptionist", "user"],
     },
   },
 } as const

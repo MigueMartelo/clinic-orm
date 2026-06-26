@@ -10,8 +10,21 @@ export type Profile = {
 
 export const roleLabels: Record<UserRole, string> = {
   admin: "Admin",
-  recepcion: "Recepción",
-  doctora: "Doctora",
+  receptionist: "Recepción",
+  doctor: "Doctora",
+  user: "Usuario",
 };
 
-export const userRoles: UserRole[] = ["recepcion", "doctora", "admin"];
+export const userRoles: UserRole[] = [
+  "receptionist",
+  "doctor",
+  "admin",
+  "user",
+];
+
+/** Roles that staff admins can assign when creating users */
+export const assignableRoles: UserRole[] = [
+  "receptionist",
+  "doctor",
+  "user",
+];

@@ -38,8 +38,9 @@ Receivables: view over `attendances.balance_cop` + `service_instances.balance_co
 
 ## User roles
 
-- `doctora` — read + clinical notes
-- `recepcion` — CRUD patients, attendances, sessions, inventory sales
+- `doctor` — read + clinical notes
+- `receptionist` — CRUD patients, attendances, sessions, inventory sales
+- `user` — read-only access to patients, attendances, and receivables
 - `admin` — full access + user management
 
 ## Delivery phases

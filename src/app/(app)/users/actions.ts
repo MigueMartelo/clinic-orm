@@ -7,7 +7,7 @@ import { getProfile, type UserRole } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
-const userRoleSchema = z.enum(["admin", "recepcion", "doctora"]);
+const userRoleSchema = z.enum(["admin", "receptionist", "doctor", "user"]);
 
 const createUserSchema = z.object({
   email: z.string().email("Ingresa un correo válido"),
