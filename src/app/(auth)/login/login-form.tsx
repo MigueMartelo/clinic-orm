@@ -82,7 +82,7 @@ export function LoginForm() {
             <div className='flex items-center justify-between'>
               <Label htmlFor='password'>Contraseña</Label>
               <Link
-                href='/login/recuperar'
+                href='/login/forgot-password'
                 className='text-xs text-muted-foreground hover:text-foreground'
               >
                 ¿Olvidaste tu contraseña?

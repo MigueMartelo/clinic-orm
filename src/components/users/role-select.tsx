@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import {
   updateUserRoleAction,
   type ActionState,
-} from '@/app/(app)/usuarios/actions';
+} from '@/app/(app)/users/actions';
 import { roleLabels, userRoles, type Profile } from '@/lib/auth-types';
 
 type RoleSelectProps = {

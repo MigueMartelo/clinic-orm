@@ -50,7 +50,7 @@ export async function updateProfileAction(
     return { error: authError.message };
   }
 
-  revalidatePath('/perfil');
+  revalidatePath('/profile');
   revalidatePath('/', 'layout');
 
   return { success: 'Perfil actualizado correctamente' };

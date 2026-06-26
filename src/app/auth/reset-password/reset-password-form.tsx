@@ -115,7 +115,7 @@ export function ResetPasswordForm() {
           </Button>
 
           <Link
-            href='/login/recuperar'
+            href='/login/forgot-password'
             className='text-center text-sm text-muted-foreground hover:text-foreground'
           >
             Solicitar un nuevo enlace

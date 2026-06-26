@@ -7,7 +7,7 @@ export default async function ResetPasswordPage() {
   const user = await getSessionUser();
 
   if (!user) {
-    redirect('/login/recuperar');
+    redirect('/login/forgot-password');
   }
 
   return (

@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import {
   updateProfileAction,
   type UpdateProfileState,
-} from '@/app/(app)/perfil/actions';
+} from '@/app/(app)/profile/actions';
 import { roleLabels, type Profile } from '@/lib/auth-types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

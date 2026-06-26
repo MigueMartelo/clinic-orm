@@ -76,7 +76,7 @@ export async function createUserAction(
       return { error: profileError.message };
     }
 
-    revalidatePath("/usuarios");
+    revalidatePath("/users");
     return { success: "Usuario creado correctamente" };
   } catch {
     return {
@@ -126,6 +126,6 @@ export async function updateUserRoleAction(
     return { error: error.message };
   }
 
-  revalidatePath("/usuarios");
+  revalidatePath("/users");
   return { success: "Rol actualizado" };
 }

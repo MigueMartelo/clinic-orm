@@ -1,4 +1,4 @@
-import { ForgotPasswordForm } from '@/app/(auth)/login/recuperar/forgot-password-form';
+import { ForgotPasswordForm } from '@/app/(auth)/login/forgot-password/forgot-password-form';
 
 export default function RecuperarPasswordPage() {
   return (

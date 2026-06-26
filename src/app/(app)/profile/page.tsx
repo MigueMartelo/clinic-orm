@@ -1,4 +1,4 @@
-import { ProfileForm } from '@/app/(app)/perfil/profile-form';
+import { ProfileForm } from '@/app/(app)/profile/profile-form';
 import { requireProfile, getSessionUser } from '@/lib/auth';
 
 export default async function PerfilPage() {

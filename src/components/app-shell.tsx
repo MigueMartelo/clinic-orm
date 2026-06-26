@@ -86,9 +86,9 @@ export function AppShell({ profile, children }: AppShellProps) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
-                isActive={pathname === '/perfil'}
+                isActive={pathname === '/profile'}
                 tooltip='Mi perfil'
-                render={<Link href='/perfil' />}
+                render={<Link href='/profile' />}
               >
                 <Avatar size='sm'>
                   <AvatarFallback>
@@ -143,7 +143,7 @@ export function AppShell({ profile, children }: AppShellProps) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Link
-                  href='/perfil'
+                  href='/profile'
                   className='relative flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground'
                 >
                   <UserCircleIcon className='size-4' />

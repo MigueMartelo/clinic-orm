@@ -6,10 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
 
-import {
-  createUserAction,
-  type ActionState,
-} from '@/app/(app)/usuarios/actions';
+import { createUserAction, type ActionState } from '@/app/(app)/users/actions';
 import { roleLabels, userRoles } from '@/lib/auth-types';
 import { Button } from '@/components/ui/button';
 import {

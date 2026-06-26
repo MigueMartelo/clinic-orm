@@ -9,7 +9,7 @@ import { z } from 'zod';
 import {
   requestPasswordResetAction,
   type RequestResetState,
-} from '@/app/(auth)/login/recuperar/actions';
+} from '@/app/(auth)/login/forgot-password/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
