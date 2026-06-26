@@ -1,10 +1,8 @@
-import { PlaceholderPage } from '@/components/placeholder-page';
+import { AttendancesView } from '@/app/(app)/attendances/attendances-view';
+import { requireProfile } from '@/lib/auth';
 
-export default function AtencionesPage() {
-  return (
-    <PlaceholderPage
-      title='Atenciones'
-      description='Registro de atenciones y producción del día. Disponible en la Fase 3.'
-    />
-  );
+export default async function AttendancesPage() {
+  const profile = await requireProfile();
+
+  return <AttendancesView role={profile.role} />;
 }
