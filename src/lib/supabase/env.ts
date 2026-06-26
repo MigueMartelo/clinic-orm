@@ -1,6 +1,12 @@
-function readEnv(...keys: string[]): string | undefined {
+function trimEnv(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed || undefined;
+}
+
+/** Server-only: dynamic lookup is fine (never bundled for the browser). */
+function readServerEnv(...keys: string[]): string | undefined {
   for (const key of keys) {
-    const value = process.env[key]?.trim();
+    const value = trimEnv(process.env[key]);
     if (value) {
       return value;
     }
@@ -11,16 +17,14 @@ function readEnv(...keys: string[]): string | undefined {
 
 export function hasSupabaseClientEnv(): boolean {
   return Boolean(
-    readEnv("NEXT_PUBLIC_SUPABASE_URL") &&
-      readEnv(
-        "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-      ),
+    trimEnv(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
+      (trimEnv(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ||
+        trimEnv(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)),
   );
 }
 
 export function getSupabaseUrl(): string {
-  const url = readEnv("NEXT_PUBLIC_SUPABASE_URL");
+  const url = trimEnv(process.env.NEXT_PUBLIC_SUPABASE_URL);
 
   if (!url) {
     throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL");
@@ -30,10 +34,9 @@ export function getSupabaseUrl(): string {
 }
 
 export function getSupabasePublishableKey(): string {
-  const key = readEnv(
-    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-  );
+  const key =
+    trimEnv(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ??
+    trimEnv(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
   if (!key) {
     throw new Error(
@@ -45,7 +48,7 @@ export function getSupabasePublishableKey(): string {
 }
 
 export function getSupabaseSecretKey(): string | undefined {
-  return readEnv("SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY");
+  return readServerEnv("SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY");
 }
 
 export function requireSupabaseSecretKey(): string {
