@@ -36,7 +36,7 @@ export function SearchInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className='w-full max-w-sm'>
+    <form onSubmit={handleSubmit} className='w-full shrink-0 sm:w-80 md:w-96'>
       <Input
         key={currentQuery}
         name={paramName}
