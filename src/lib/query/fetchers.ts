@@ -3,7 +3,15 @@ import {
   getTodayInBogota,
 } from '@/lib/format';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
+import type { Tables } from '@/lib/supabase/database.types';
 import { createClient } from '@/lib/supabase/client';
+
+export class FetchNotFoundError extends Error {
+  constructor(message = 'Not found') {
+    super(message);
+    this.name = 'FetchNotFoundError';
+  }
+}
 
 export type PatientsListParams = {
   page: number;
@@ -150,5 +158,108 @@ export async function fetchAttendancesList(
     attendances: (data ?? []) as AttendancesListResult['attendances'],
     count: count ?? 0,
     productionTotal,
+  };
+}
+
+export type PatientDetailResult = {
+  patient: Tables<'patients'>;
+  timeline: Tables<'patient_timeline'>[];
+  medicalProfile: Tables<'patient_medical_profiles'> | null;
+  totalBalance: number;
+};
+
+export async function fetchPatientDetail(
+  patientId: string,
+): Promise<PatientDetailResult> {
+  const supabase = createClient();
+
+  const { data: patient, error } = await supabase
+    .from('patients')
+    .select('*')
+    .eq('id', patientId)
+    .single();
+
+  if (error || !patient) {
+    throw new FetchNotFoundError('Paciente no encontrado');
+  }
+
+  const [timelineRes, medicalRes, receivablesRes] = await Promise.all([
+    supabase
+      .from('patient_timeline')
+      .select('*')
+      .eq('patient_id', patientId)
+      .order('event_at', { ascending: false }),
+    supabase
+      .from('patient_medical_profiles')
+      .select('*')
+      .eq('patient_id', patientId)
+      .maybeSingle(),
+    supabase.from('receivables').select('balance_cop').eq('patient_id', patientId),
+  ]);
+
+  if (timelineRes.error) {
+    throw new Error(timelineRes.error.message);
+  }
+  if (medicalRes.error) {
+    throw new Error(medicalRes.error.message);
+  }
+  if (receivablesRes.error) {
+    throw new Error(receivablesRes.error.message);
+  }
+
+  const totalBalance =
+    receivablesRes.data?.reduce((sum, row) => sum + (row.balance_cop ?? 0), 0) ??
+    0;
+
+  return {
+    patient,
+    timeline: timelineRes.data ?? [],
+    medicalProfile: medicalRes.data,
+    totalBalance,
+  };
+}
+
+export type AttendanceDetailResult = {
+  attendance: Tables<'attendances'> & {
+    patients: { id: string; full_name: string; phone: string | null };
+    services: { name: string };
+  };
+  payments: Tables<'payments'>[];
+};
+
+export async function fetchAttendanceDetail(
+  attendanceId: string,
+): Promise<AttendanceDetailResult> {
+  const supabase = createClient();
+
+  const { data: attendance, error } = await supabase
+    .from('attendances')
+    .select(
+      `
+      *,
+      patients!inner(id, full_name, phone),
+      services!inner(name)
+    `,
+    )
+    .eq('id', attendanceId)
+    .single();
+
+  if (error || !attendance) {
+    throw new FetchNotFoundError('Atención no encontrada');
+  }
+
+  const { data: payments, error: paymentsError } = await supabase
+    .from('payments')
+    .select('*')
+    .eq('attendance_id', attendanceId)
+    .order('paid_at', { ascending: false });
+
+  if (paymentsError) {
+    throw new Error(paymentsError.message);
+  }
+
+  return {
+    attendance: attendance as AttendanceDetailResult['attendance'],
+    payments: payments ?? [],
   };
 }

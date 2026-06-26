@@ -10,6 +10,7 @@ import {
   addClinicalNoteAction,
   type PatientDetailActionState,
 } from '@/app/(app)/patients/[id]/actions';
+import { useInvalidatePatientDetail } from '@/hooks/queries/use-invalidate';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -36,6 +37,7 @@ type ClinicalNoteFormProps = {
 const initialState: PatientDetailActionState = {};
 
 export function ClinicalNoteForm({ patientId }: ClinicalNoteFormProps) {
+  const invalidatePatientDetail = useInvalidatePatientDetail(patientId);
   const [state, formAction, isPending] = useActionState(
     addClinicalNoteAction,
     initialState,
@@ -54,12 +56,13 @@ export function ClinicalNoteForm({ patientId }: ClinicalNoteFormProps) {
   useEffect(() => {
     if (state.success) {
       toast.success(state.success);
+      invalidatePatientDetail();
       reset();
     }
     if (state.error) {
       toast.error(state.error);
     }
-  }, [reset, state.error, state.success]);
+  }, [invalidatePatientDetail, reset, state.error, state.success]);
 
   const onSubmit = handleSubmit((values) => {
     const formData = new FormData();

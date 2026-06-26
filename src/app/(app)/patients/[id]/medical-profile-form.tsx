@@ -10,6 +10,7 @@ import {
   upsertMedicalProfileAction,
   type PatientDetailActionState,
 } from '@/app/(app)/patients/[id]/actions';
+import { useInvalidatePatientDetail } from '@/hooks/queries/use-invalidate';
 import type { Tables } from '@/lib/supabase/database.types';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,6 +47,7 @@ export function MedicalProfileForm({
   profile,
   readOnly = false,
 }: MedicalProfileFormProps) {
+  const invalidatePatientDetail = useInvalidatePatientDetail(patientId);
   const [state, formAction, isPending] = useActionState(
     upsertMedicalProfileAction,
     initialState,
@@ -69,11 +71,12 @@ export function MedicalProfileForm({
   useEffect(() => {
     if (state.success) {
       toast.success(state.success);
+      invalidatePatientDetail();
     }
     if (state.error) {
       toast.error(state.error);
     }
-  }, [state.error, state.success]);
+  }, [invalidatePatientDetail, state.error, state.success]);
 
   const onSubmit = handleSubmit((values) => {
     const formData = new FormData();

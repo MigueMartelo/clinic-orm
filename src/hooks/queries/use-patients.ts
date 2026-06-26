@@ -3,7 +3,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
+  fetchAttendanceDetail,
   fetchAttendancesList,
+  fetchPatientDetail,
   fetchPatientsList,
   type AttendancesListParams,
   type PatientsListParams,
@@ -20,6 +22,13 @@ export function usePatientsList(params: PatientsListParams) {
   });
 }
 
+export function usePatientDetail(patientId: string) {
+  return useQuery({
+    queryKey: patientKeys.detail(patientId),
+    queryFn: () => fetchPatientDetail(patientId),
+  });
+}
+
 export function useAttendancesList(params: AttendancesListParams) {
   const pageSize = params.pageSize ?? DEFAULT_PAGE_SIZE;
 
@@ -32,5 +41,12 @@ export function useAttendancesList(params: AttendancesListParams) {
       toDate: params.toDate ?? '',
     }),
     queryFn: () => fetchAttendancesList({ ...params, pageSize }),
+  });
+}
+
+export function useAttendanceDetail(attendanceId: string) {
+  return useQuery({
+    queryKey: attendanceKeys.detail(attendanceId),
+    queryFn: () => fetchAttendanceDetail(attendanceId),
   });
 }

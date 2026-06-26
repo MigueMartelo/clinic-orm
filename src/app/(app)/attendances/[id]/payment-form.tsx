@@ -10,7 +10,11 @@ import {
   addPaymentAction,
   type AttendanceActionState,
 } from '@/app/(app)/attendances/actions';
-import { useInvalidateAttendances } from '@/hooks/queries/use-invalidate';
+import {
+  useInvalidateAttendances,
+  useInvalidateAttendanceDetail,
+  useInvalidatePatients,
+} from '@/hooks/queries/use-invalidate';
 import { formatCop, parseCopInput } from '@/lib/format';
 import { paymentMethodLabels, paymentMethods } from '@/lib/payment-methods';
 import { Button } from '@/components/ui/button';
@@ -43,6 +47,9 @@ const initialState: AttendanceActionState = {};
 
 export function PaymentForm({ attendanceId, maxAmount }: PaymentFormProps) {
   const invalidateAttendances = useInvalidateAttendances();
+  const invalidateAttendanceDetail =
+    useInvalidateAttendanceDetail(attendanceId);
+  const invalidatePatients = useInvalidatePatients();
   const [state, formAction, isPending] = useActionState(
     addPaymentAction,
     initialState,
@@ -62,12 +69,21 @@ export function PaymentForm({ attendanceId, maxAmount }: PaymentFormProps) {
     if (state.success) {
       toast.success(state.success);
       invalidateAttendances();
+      invalidateAttendanceDetail();
+      invalidatePatients();
       reset();
     }
     if (state.error) {
       toast.error(state.error);
     }
-  }, [invalidateAttendances, reset, state.error, state.success]);
+  }, [
+    invalidateAttendanceDetail,
+    invalidateAttendances,
+    invalidatePatients,
+    reset,
+    state.error,
+    state.success,
+  ]);
 
   const onSubmit = handleSubmit((values) => {
     const amount = parseCopInput(values.amount_cop);

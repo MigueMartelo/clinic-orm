@@ -10,6 +10,7 @@ import {
   updateAttendanceNotesAction,
   type AttendanceActionState,
 } from '@/app/(app)/attendances/actions';
+import { useInvalidateAttendanceDetail } from '@/hooks/queries/use-invalidate';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -40,6 +41,8 @@ export function AttendanceNotesForm({
   initialNotes,
   readOnly = false,
 }: AttendanceNotesFormProps) {
+  const invalidateAttendanceDetail =
+    useInvalidateAttendanceDetail(attendanceId);
   const [state, formAction, isPending] = useActionState(
     updateAttendanceNotesAction,
     initialState,
@@ -57,11 +60,12 @@ export function AttendanceNotesForm({
   useEffect(() => {
     if (state.success) {
       toast.success(state.success);
+      invalidateAttendanceDetail();
     }
     if (state.error) {
       toast.error(state.error);
     }
-  }, [state.error, state.success]);
+  }, [invalidateAttendanceDetail, state.error, state.success]);
 
   const onSubmit = handleSubmit((values) => {
     const formData = new FormData();
