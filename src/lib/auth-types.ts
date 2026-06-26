@@ -11,7 +11,7 @@ export type Profile = {
 export const roleLabels: Record<UserRole, string> = {
   admin: "Admin",
   receptionist: "Recepción",
-  doctor: "Doctora",
+  doctor: "Doctor",
   user: "Usuario",
 };
 
